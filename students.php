@@ -22,7 +22,6 @@ $students=$response->fetchAll(PDO::FETCH_OBJ);
         <div class="alert alert-info">
             <label> Students List</label> <br>
         </div>
-    </div>
     <table class="table">
         <thead>
             <tr>
@@ -48,5 +47,6 @@ $students=$response->fetchAll(PDO::FETCH_OBJ);
             <?php endforeach?>
     </tbody>
     </table>
+    </div>
 </body>
 </html>

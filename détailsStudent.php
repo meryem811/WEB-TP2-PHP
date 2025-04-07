@@ -9,8 +9,14 @@ if (!isset($id)){
     echo'</div>';
     exit;
 }
-$query="select * from university_db.student where id='$id'";
-$response=$bd->query($query);
+        /** code protegé 
+        */
+$query="select * from university_db.student where id=:id";
+$response=$bd->prepare(query:$query);
+$response->execute(['id'=>$id]);
+
+        /** rien ne change à par ça */
+
 $student=$response->fetch(PDO::FETCH_OBJ);
 if (!$student){
     echo "Student NOT found!";
@@ -32,7 +38,7 @@ if (!$student){
 <body>
     <div class="container">
         <div class="alert alert-info">
-            <h3>Studnet Details</h3>
+            <h3>Student Details</h3>
         </div>
     <div class="card">
         <div class="card-body">
