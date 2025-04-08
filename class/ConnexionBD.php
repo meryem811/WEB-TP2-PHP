@@ -1,6 +1,6 @@
 <?php
 class ConnexionBD {
-    private static $_dbname="university_db";
+    private static $_dbname="platforme_db";
     private static $_user="root";
     private static $pwd="newpassword";
     private static $_host="localhost";
@@ -10,7 +10,7 @@ class ConnexionBD {
     {
         try
         {
-            self::$_instance=new PDO('mysql:host=localhost;dbName=university_db','root','newpassword');
+            self::$_instance=new PDO('mysql:host=localhost;dbname=platforme_db','root','newpassword');
         }catch (PDOException $e){
             die('ERREUR :' .$e->getMessage());
         }

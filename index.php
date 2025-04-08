@@ -1,3 +1,9 @@
+<?php
+    session_start();
+    if(isset($_SESSION['error'])){
+        echo"Invalid credentials, Redirection to Login Page...";
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,17 +12,26 @@
     <link 
         rel="stylesheet"    
         href="node_modules/bootstrap/dist/css/bootstrap.css"/>
-    <title>Home</title>
+    <title>login</title>
 </head>
 <body>
-    <div class="container">
-        <div class="alert alert-success">
-            <label> Welcome To Student's Page</label> <br>
+<div class="container">
+        <form action="login.php" method="post">
+        <div class="form-group">
+            <label for="inputUserName">User Name</label>
+            <input type="text" class="form-control" name="inputUserName" id="inputUserName" placeholder="Enter User Name">
         </div>
-        <form action="students.php" method="get">
-            <input type="submit" name="View Students" value="view students" class="btn btn-outline-success"> <br>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" name="exampleInputPassword1" id="exampleInputPassword1" placeholder="Password">
+        </div>
+        <small id="emailHelp" class="form-text text-muted">We'll never share your authentification data with anyone else.</small> <br>
+        <!-- <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        </div> -->
+        <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-    </div>
+</div>
 </body>
 </html>
-

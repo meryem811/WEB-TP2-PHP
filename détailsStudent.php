@@ -9,13 +9,9 @@ if (!isset($id)){
     echo'</div>';
     exit;
 }
-        /** code protegé 
-        */
-$query="select * from university_db.student where id=:id";
+$query="select étudiant.* , section.designation as section_name from  platforme_db.étudiant ,platforme_db.section where étudiant.id=:id and étudiant.section=section.id";
 $response=$bd->prepare(query:$query);
 $response->execute(['id'=>$id]);
-
-        /** rien ne change à par ça */
 
 $student=$response->fetch(PDO::FETCH_OBJ);
 if (!$student){
@@ -40,9 +36,11 @@ if (!$student){
         <div class="alert alert-info">
             <h3>Student Details</h3>
         </div>
-    <div class="card">
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="images/<?=$student->image?>" alt="<?=$student->Name?>">
         <div class="card-body">
-            <h5 class="card-title"><?=$student->name?></h5>
+            <h5 class="card-title"><?=$student->Name?></h5>
+            <p class="card-text">Section: <strong><?=$student->section_name?></strong></p>
             <p class="card-text"><strong>Birthday:</strong> <?=$student->birthday?></p>
             <p class="card-text"><strong>id:</strong> <?=$student->id?></p>
         </div>
@@ -50,4 +48,4 @@ if (!$student){
     </div>
 
 </body>
-</html>
+</html><td>
