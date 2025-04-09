@@ -1,7 +1,7 @@
 <?php
     function load(string $className):void 
     {
-        include_once"class/$className.php" ;
+        include_once"$className.php" ;
     }
     spl_autoload_register('load');
 ?>

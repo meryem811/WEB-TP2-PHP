@@ -1,4 +1,9 @@
 <?php
+    session_start();
+    if (!isset($_SESSION['user'])) {
+        header("Location: index.php");
+        exit();
+    }
 include "autoloader.php";
 $bd=ConnexionBD::getInstance();
 $id=$_GET['id'];

@@ -21,7 +21,11 @@ $students=$response->fetchAll(PDO::FETCH_OBJ);
         <div class="alert alert-info">
             <label> Students' List</label> <br>
         </div>
-    <table class="table">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+    <table id="tableStudent" class="dispplay">
         <thead>
             <tr>
             <th scope="col">#</th>
@@ -56,6 +60,12 @@ $students=$response->fetchAll(PDO::FETCH_OBJ);
             <?php endforeach?>
     </tbody>
     </table>
+    <script>
+    $(document).ready(function() {
+        $('#tableStudent').DataTable(); // Transforme le tableau en DataTable
+    });
+    </script>
     </div>
 </body>
 </html>
+

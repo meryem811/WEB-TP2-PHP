@@ -1,8 +1,9 @@
 <?php
-    session_start();
-    if(isset($_SESSION['error'])){
-        echo"Invalid credentials, Redirection to Login Page...";
-    }
+session_start();
+if(isset($_SESSION['message'])){
+    echo "<div class='alert alert-success'>".$_SESSION['message']."</div>";
+    unset($_SESSION['message']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

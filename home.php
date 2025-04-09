@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (!isset($_SESSION['user'])) {
+    header("Location: index.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,10 +30,10 @@
             <a class="nav-link" href="students.php">Liste des étudiants</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Liste des sections</a>
+            <a class="nav-link" href="sections.php">Liste des sections</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link disabled" href="#">log out</a>
+            <a class="nav-link" href="logout.php" onclick="return confirm('Voulez-vous vraiment quitter la plateforme?')">log out</a>   
         </li>
         </ul>
     </div>
@@ -37,4 +44,3 @@
 </div>
 </body>
 </html>
-
