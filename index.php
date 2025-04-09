@@ -1,9 +1,10 @@
 <?php
-session_start();
-if(isset($_SESSION['message'])){
-    echo "<div class='alert alert-success'>".$_SESSION['message']."</div>";
-    unset($_SESSION['message']);
-}
+    session_start();
+    if(isset($_SESSION['message'])){
+        echo "<div class='alert alert-success'>".$_SESSION['message']."</div>";
+        unset($_SESSION['message']);
+    }
+    include "autoloader.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">

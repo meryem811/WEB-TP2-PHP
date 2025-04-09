@@ -1,23 +1,38 @@
 <?php
-include "autoloader.php";
-session_start();
-if (!isset($_SESSION['user'])) {
-    header("Location: index.php");
-    exit();
-}
-$bd=ConnexionBD::getInstance();
-$query="select étudiant.*,section.designation as section_name from  platforme_db.étudiant, platforme_db.section where  étudiant.section = section.id";
-$response=$bd->query($query);
-$students=$response->fetchAll(PDO::FETCH_OBJ);
+    session_start();
+    if (!isset($_SESSION['user'])) {
+        header("Location: index.php");
+        exit();
+    }
+    include "autoloader.php";
+    $bd=ConnexionBD::getInstance();
+    // Filtrage par nom PHP
+    $search = $_GET['search'] ?? '';
+    $query_filtrage = "select E.*, S.designation as section_name from platforme_db.`étudiant` E ,platforme_db.section S WHERE E.section=S.id";
+    $params = [];
+
+    if (!empty($search)) {
+        $query_filtrage .=" and E.Name LIKE :search"; 
+        $params[':search'] = "%$search%";
+    }
+    $preparation = $bd->prepare($query_filtrage);
+    
+    // try {
+    //     $preparation->execute($params);
+    // } catch (PDOException $e) {
+    //     echo "Erreur SQL: " . $e->getMessage();
+    // }
+    $preparation->execute($params);
+    $students= $preparation->fetchAll(PDO::FETCH_OBJ);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Students</title>
-    
-   <!-- Bootstrap -->
+    <title>Filtrage Appliqué</title>
+    <!-- Bootstrap -->
    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
 
     <!-- Icons -->
@@ -44,29 +59,14 @@ $students=$response->fetchAll(PDO::FETCH_OBJ);
     <!-- pdfmake pour export PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-    <!-- icone filtrere -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
 </head>
 <body>
     <?php include_once('Navbar.php');?>
     <div class="container">
-        <div class="alert alert-info">
-            <label> Students' List</label> <br>
+        <div class="alert alert-light">
+            <label>Liste Après Filtrage</label> <br>
         </div>
-     <!-- form filtrage php -->
-        <form action="FiltrageStudents.php" method="GET" class="mb-3">
-            <div class="input-group">
-                <input type="text" name="search" class="form-control" placeholder="Filtrer par nom..." style="width: 200px ; " >
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-search"></i> Filtrer
-                </button>
-                <button type="button" class="btn btn-secondary">
-                    <i class="fas fa-user-plus"></i>
-                </button>
-            </div>
-        </form>
-        <!-- fin -->
+        
     <table id="tableStudent" class="display">
         <thead>
             <tr>
@@ -76,7 +76,6 @@ $students=$response->fetchAll(PDO::FETCH_OBJ);
             <th scope="col">Birthday</th>
             <th scope="col">Section</th>
             <th scope="col">Détails</th>
-            <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -96,21 +95,20 @@ $students=$response->fetchAll(PDO::FETCH_OBJ);
                 <td >
                     <a href="détailsStudent.php?id= <?=$student->id?>" target="_blank">Détails</a>
                 </td>
-                <th>--</th>
             </tr>
             <?php endforeach?>
-    </tbody>
-    </table>
-    <script>
-    $(document).ready(function() {
+        </tbody>
+        </table>
+        <script>
+        $(document).ready(function() {
         $('#tableStudent').DataTable({
         dom: 'Bfrtip',
         buttons: [
             'copy', 'excel', 'csv', 'pdf'
-    ]
-    });
-    });
-    </script>
+        ]
+        }); });
+        </script>
     </div>
+    
 </body>
 </html>
